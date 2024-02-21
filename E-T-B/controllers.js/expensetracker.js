@@ -6,14 +6,12 @@ exports.postUsers = async (req,res,next)=>{
         const email = req.body.email;
         const number = req.body.number;
         const password = req.body.password;
+
         let user = await UserSign.findOne({ where: {email: email}});
         if(user){
-            // document.body.innerHTML = document.body.innerHTML + "<h1> User already exists</h1>"
-
-            // alert( "User already exists");
             console.log('user already exists');
-            return res.status(400).json({message:"User already exists"})
-            
+            return res.status(500).json({message:"User already exists"})
+                       
         }else{
             const newUser = await  UserSign.create({
                 name : name ,  
@@ -26,5 +24,6 @@ exports.postUsers = async (req,res,next)=>{
         }
     } catch (error) {
         console.log(error);
+        return res.status(500).json(error);
     }
 }
