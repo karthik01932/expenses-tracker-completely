@@ -9,15 +9,11 @@ async function login(event){
             password
         }
 
-        const response = await axios.post('http://localhost:3000/login',logindetails);
-        console.log(response);
-        if(response.status === 201){
-            alert(response.data.message)
-        }else{
-            throw new  Error(response.data.message);
-        }
+        const response = await axios.post('http://localhost:3000/login', logindetails);
+        // console.log(response);
+        alert(response.data.message)
     } catch (error) {
-        console.log(JSON.stringify(error))
-        document.body.innerHTML+= `<div style = "color: red;">${error.message}<br></div>`
+        // console.log(JSON.stringify(error))
+        document.body.innerHTML+= `<div style = "color: red;">${error.message}<br>  "hi"</div>`
     }
 }

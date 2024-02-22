@@ -27,3 +27,25 @@ exports.postUsers = async (req,res,next)=>{
         return res.status(500).json(error);
     }
 }
+
+exports.postLogin = async (req, res, next) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+        const user = await UserSign.findAll({ where: { email } });
+ 
+        if(user.length > 0){
+            if(user[0].password === password){
+                res.status(201).json({success: true, message: 'Successfully logged in'});
+            }else{
+                return res.status(400).json({success: false, message: 'Wrong password.'});
+            }
+        } else {
+            return res.status(404).json({success: false, message: 'user does not exists'});
+        }
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({message:error, success: false});
+    }
+}
