@@ -12,12 +12,16 @@ app.use(cors());
 app.use(express.json());
 
 const userRoutes = require('./routes/expensetracker');
+const userExpensesRoutes = require('./routes/dailyexpenses');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 app.use(userRoutes);
+app.use(userExpensesRoutes);
+
 
 sequelize
     .sync()

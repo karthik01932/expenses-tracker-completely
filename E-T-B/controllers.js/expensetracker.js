@@ -37,6 +37,7 @@ exports.postLogin = async (req, res, next) => {
         if(user.length > 0){
             if(user[0].password === password){
                 res.status(201).json({success: true, message: 'Successfully logged in'});
+                res.redirect('/dailyexpenses');
             }else{
                 return res.status(400).json({success: false, message: 'Wrong password.'});
             }

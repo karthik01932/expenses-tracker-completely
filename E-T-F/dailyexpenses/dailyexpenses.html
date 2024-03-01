@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daily expenses</title>
+</head>
+<body>
+    <h1>Daily Expenses Calculator</h1>
+    <form onsubmit="dailyexpenses(event)">
+        <label for="catergory">Choose catergory:</label>
+        <select class="form-select" id="catergory" required>
+            <option selected disabled>Choose...</option>
+            <option value="shopping">Shopping</option>
+            <option value="movie">Movie</option>
+            <option value="travel">Travel</option>
+            <option value="food">Food</option>
+        </select>
+        <!-- <input type="text" id="catergory" required> -->
+
+        <label for="amount">Expense Amount: </label>
+        <input type="number" id="amount" required>
+
+        <label for="description">Expense Description: </label>
+        <input type="text" id="description" required>
+
+        <button type="submit">Add Expense</button>
+    </form>
+    <ul id="listofexpenses"></ul>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>  
+    <script src="./dailyexpenses.js"></script>
+</body>
+</html>
