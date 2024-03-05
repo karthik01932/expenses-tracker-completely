@@ -1,4 +1,7 @@
 const UserSign = require('../models.js/expensetracker');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
 
 exports.postUsers = async (req,res,next)=>{
     try {
@@ -28,6 +31,11 @@ exports.postUsers = async (req,res,next)=>{
     }
 }
 
+function generateAccessToken(id,name){
+    return jwt.sign({userId : id, name: name},'secretkey')
+}
+
+
 exports.postLogin = async (req, res, next) => {
     try {
         const email = req.body.email;
@@ -36,8 +44,7 @@ exports.postLogin = async (req, res, next) => {
  
         if(user.length > 0){
             if(user[0].password === password){
-                res.status(201).json({success: true, message: 'Successfully logged in'});
-                res.redirect('/dailyexpenses');
+                res.status(201).json({success: true, message: 'Successfully logged in',token: generateAccessToken(user[0].id, user[0].name)});
             }else{
                 return res.status(400).json({success: false, message: 'Wrong password.'});
             }

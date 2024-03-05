@@ -9,8 +9,11 @@ async function dailyexpenses(event){
             catergory,
             amount,
             description
+            // userid
         }
-        const response = await axios.post('http://localhost:3000/dailyexpenses', userExpenses);
+        const token = localStorage.getItem("token");
+        
+        const response = await axios.post('http://localhost:3000/dailyexpenses', userExpenses, { headers: {"Authorization" : token} });
         showuseronscreen(response.data);
         console.log(response);
 
@@ -22,7 +25,8 @@ async function dailyexpenses(event){
 
 window.addEventListener("DOMContentLoaded", async () =>{
     try {
-        const response = await axios.get(`http://localhost:3000/get-dailyexpenses`)
+        const token = localStorage.getItem('token')
+        const response = await axios.get(`http://localhost:3000/get-dailyexpenses`,{headers: {"Authorization" : token}})
         console.log(response);
         for(var i=0;i<response.data.allExpenses.length;i++){
             shownewuseronscreen(response.data.allExpenses[i])
@@ -53,7 +57,8 @@ function shownewuseronscreen(user){
 
 async function deleteuser(userid){
     try {
-        const response = axios.delete(`http://localhost:3000/delete-expenses/${userid}`)
+        const token = localStorage.getItem('token');
+        const response = axios.delete(`http://localhost:3000/delete-expenses/${userid}`,{headers: {'Authorization': token}})
         console.log(response);
         removeuserfromscreen(userid);
     } catch (error) {

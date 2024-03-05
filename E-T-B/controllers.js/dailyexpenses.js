@@ -9,7 +9,9 @@ exports.postUsersExpenses = async (req,res,next) => {
         const newExpenses = await  UserExpenses.create({
             catergory: catergory,
             amount: amount,
-            description: description
+            description: description,
+            userId: req.user.id
+
         })
         res.status(201).json(newExpenses);
         
@@ -21,12 +23,12 @@ exports.postUsersExpenses = async (req,res,next) => {
 
 exports.getUsersExpenses  = async  (req,res,next) => {
     try {
-        const expensesData =  await UserExpenses.findAll();
-        // console.log(expensesData);
+        const expensesData =  await UserExpenses.findAll({where: {userId: req.user.id}});
+        console.log(expensesData);
         
         res.status(200).json({allExpenses: expensesData});
     } catch (error) {
-        // console.log(error)
+        console.log(error)
         res.status(500).json(error)   
     }
 }
@@ -35,7 +37,7 @@ exports.deleteExpenses = async function(req,res,next){
     const id  = req.params.id;
     try{
         console.log(id);
-        const data=await UserExpenses.destroy({where:{id:id}});
+        const data=await UserExpenses.destroy({where:{id:id , userId: req.user.id}});
         if(!data){
            return res.status(400).send("Failed to delete!");  
         }else{

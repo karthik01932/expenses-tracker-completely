@@ -3,6 +3,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const sequelize = require('./utils/database');
+const User = require('./models.js/expensetracker');
+const Expense = require('./models.js/dailyexpenses')
 
 const cors = require('cors');
 
@@ -22,6 +24,8 @@ app.use(bodyParser.json());
 app.use(userRoutes);
 app.use(userExpensesRoutes);
 
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 sequelize
     .sync()
@@ -30,7 +34,7 @@ sequelize
         app.listen(3000);
         console.log("Server is running on port 3000");
     })
-    .catch(err =>{
+    .catch(err =>{  
         console.log(err);
     })
    
