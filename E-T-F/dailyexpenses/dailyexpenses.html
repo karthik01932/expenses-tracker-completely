@@ -4,9 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>daily expenses</title>
+    <style>
+        body{
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, #C7C5F4, #6bcc7b)
+        }
+        .space{
+            display: flex;
+            justify-content: space-evenly;   
+        }
+        .message{
+            font-size: 25px;
+            margin-top: 22px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Daily Expenses Calculator</h1>
+    <div class="space">
+        <h1>Daily Expenses Calculator</h1>
+        <div class="message" id="message"></div>
+    </div>
     <form onsubmit="dailyexpenses(event)">
         <label for="catergory">Choose catergory:</label>
         <select class="form-select" id="catergory" required>
@@ -26,7 +44,16 @@
 
         <button type="submit">Add Expense</button>
     </form>
+    <div>
+        <button  id="rzy-pay">Buy Premium</button>
+    </div>
+    <!-- <div class="leaderboard">   -->
+        <!-- <div id="message"></div> -->
+        <!-- <ul class ="ul" id="leaderboard"></ul> -->
+    <!-- </div> -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <ul id="listofexpenses"></ul>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>  
     <script src="./dailyexpenses.js"></script>
