@@ -1,6 +1,8 @@
 const Razorpay = require('razorpay');
 const Order = require('../models.js/orders')
 const userController = require('./expensetracker')
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 
 exports.purchasepremium =async (req, res) => {
@@ -29,6 +31,9 @@ exports.purchasepremium =async (req, res) => {
         res.status(403).json({ message: 'Sometghing went wrong', error: err})
     }
 }
+function generateAccessToken(id,name, ispremiumuser){
+    return jwt.sign({ userId : id, name: name, ispremiumuser},'secretkey')
+}
 
 exports.updateTransactionStatus = async (req, res ) => {
     try {
@@ -39,7 +44,7 @@ exports.updateTransactionStatus = async (req, res ) => {
         const promise2 =  req.user.update({ ispremiumuser: true }) 
 
         Promise.all([promise1, promise2]).then(()=> {
-            return res.status(202).json({success: true, message: "Transaction Successful", token: userController.generateAccessToken(userId,undefined , true) });
+            return res.status(202).json({success: true, message: "Transaction Successful", token: generateAccessToken(userId,undefined , true) });
         }).catch((error ) => {
             throw new Error(error)
         })

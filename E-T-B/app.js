@@ -17,6 +17,7 @@ app.use(express.json());
 const userRoutes = require('./routes/expensetracker');
 const userExpensesRoutes = require('./routes/dailyexpenses');
 const purcahseRoutes = require('./routes/purchase');
+const premiumFeatureRoutes = require('./routes/premiumfeature');
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +26,10 @@ app.use(bodyParser.json());
 
 app.use(userRoutes);
 app.use(userExpensesRoutes);
-app.use('/purchase',purcahseRoutes)
+app.use('/purchase',purcahseRoutes);
+app.use('/premium',premiumFeatureRoutes);
+
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User);

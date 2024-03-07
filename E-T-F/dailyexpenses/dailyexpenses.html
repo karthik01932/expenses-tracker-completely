@@ -24,7 +24,6 @@
 <body>
     <div class="space">
         <h1>Daily Expenses Calculator</h1>
-        <div class="message" id="message"></div>
     </div>
     <form onsubmit="dailyexpenses(event)">
         <label for="catergory">Choose catergory:</label>
@@ -45,15 +44,16 @@
 
         <button type="submit">Add Expense</button>
     </form>
+    <ul id="listofexpenses"></ul>
+
     <div>
         <button  id="rzy-pay">Buy Premium</button>
     </div>
-    <!-- <div class="leaderboard">   -->
-        <!-- <div id="message"></div> -->
-        <!-- <ul class ="ul" id="leaderboard"></ul> -->
-    <!-- </div> -->
+    <div class="leaderboard">  
+        <div id="message"></div>
+        <ul class ="ul" id="leaderboard"></ul>
+    </div>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <ul id="listofexpenses"></ul>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>  

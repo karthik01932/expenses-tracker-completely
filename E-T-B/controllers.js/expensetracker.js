@@ -31,9 +31,12 @@ exports.postUsers = async (req,res,next)=>{
     }
 }
 
-exports.generateAccessToken = (id,name) => {
-    return jwt.sign({userId : id, name: name},'secretkey')
+function generateAccessToken(id,name, ispremiumuser){
+    return jwt.sign({ userId : id, name: name, ispremiumuser},'secretkey')
 }
+// const generateAccessToken = (id,name, ispremiumuser) => {
+//     return jwt.sign({userId : id, name: name, ispremiumuser},'secretkey')
+// }
 
 
 exports.postLogin = async (req, res, next) => {
@@ -44,7 +47,7 @@ exports.postLogin = async (req, res, next) => {
  
         if(user.length > 0){
             if(user[0].password === password){
-                res.status(201).json({success: true, message: 'Successfully logged in',token: generateAccessToken(user[0].id, user[0].name)});
+                res.status(201).json({success: true, message: 'Successfully logged in', token: generateAccessToken(user[0].id, user[0].name, user[0].ispremiumuser)});
             }else{
                 return res.status(400).json({success: false, message: 'Wrong password.'});
             }
@@ -57,3 +60,5 @@ exports.postLogin = async (req, res, next) => {
         return res.status(500).json({message:error, success: false});
     }
 }
+
+// module.exports = {trying};

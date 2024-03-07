@@ -23,9 +23,31 @@ async function dailyexpenses(event){
 
 }
 
+function showPremiumuserMessage() {
+    document.getElementById('rzy-pay').style.visibility = "hidden"
+    document.getElementById('message').innerHTML = "You are a premium user"
+}
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+}
+
 window.addEventListener("DOMContentLoaded", async () =>{
     try {
         const token = localStorage.getItem('token')
+        const decodeToken = parseJwt(token)
+        console.log(decodeToken)
+        const ispremiumuser = decodeToken.ispremiumuser
+        if(ispremiumuser){
+            showPremiumuserMessage()
+            showLeaderboard()
+        }
         const response = await axios.get(`http://localhost:3000/get-dailyexpenses`,{headers: {"Authorization" : token}})
         console.log(response);
         for(var i=0;i<response.data.allExpenses.length;i++){
@@ -52,7 +74,6 @@ function shownewuseronscreen(user){
         </li>`
     parentNode.innerHTML = parentNode.innerHTML+childHTML;
     // parentelement.appendChild(childelement);
-
 }
 
 async function deleteuser(userid){
@@ -86,7 +107,6 @@ function showuseronscreen(userExpenses){
     }
 }
 
-
 document.getElementById('rzy-pay').onclick = async function (e) {
     const token = localStorage.getItem('token')
     const response  = await axios.get('http://localhost:3000/purchase/premiummembership', { headers: {"Authorization" : token} });
@@ -106,8 +126,8 @@ document.getElementById('rzy-pay').onclick = async function (e) {
             alert('You are a Premium User Now')
             document.getElementById('rzy-pay').style.visibility = "hidden"
             document.getElementById('message').innerHTML = "You are a premium user "
-            // localStorage.setItem('token', res.data.token)
-            // showLeaderboard()
+            localStorage.setItem('token', res.data.token)
+            showLeaderboard()
          
         },
     };
@@ -119,4 +139,27 @@ document.getElementById('rzy-pay').onclick = async function (e) {
         console.log(response)
         alert('Something went wrong')
     });
+}
+function showLeaderboard(){
+    const inputElement = document.createElement("input")
+    inputElement.className="leaderboardbtn"
+    inputElement.type = "button"
+    inputElement.value = 'Show Leaderboard'
+    // document.getElementById('leaderboard').style.visibility = "hidden"
+
+    inputElement.onclick = async () => {
+        const token = localStorage.getItem('token')
+        const userLeaderBoardArray = await axios.get('http://localhost:3000/premium/showLeaderBoard', { headers: {"Authorization" : token} })
+        console.log(userLeaderBoardArray)
+
+        let leaderboardElem = document.getElementById('leaderboard')
+        leaderboardElem.innerHTML += '<h1> Leader Board </<h1>'
+
+        userLeaderBoardArray.data.forEach((userDetails) => {
+            leaderboardElem.innerHTML += `<li>Name - ${userDetails.name} Total Expense - ${userDetails.total_cost} </li>`
+            
+        })
+    }
+    document.getElementById("message").appendChild(inputElement);
+
 }
