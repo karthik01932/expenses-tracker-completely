@@ -13,7 +13,16 @@ exports.postUsersExpenses = async (req,res,next) => {
             userId: req.user.id
 
         })
-        res.status(201).json(newExpenses);
+        const total_cost = Number(req.user.total_cost)+Number(amount);
+        console.log(total_cost);
+        //update the total cost of the user in database
+        await req.user.updateOne({total_cost : total_cost})
+        
+        res.status(201).json({
+            success: true,
+            data: newExpenses
+        });
+        // res.status(201).json(newExpenses);
         
     }catch(err){
         console.log(err);
