@@ -8,8 +8,8 @@ async function dailyexpenses(event){
         const userExpenses = {
             catergory,
             amount,
-            description
-            // userid
+            description,
+            // userId
         }
         const token = localStorage.getItem("token");
         
@@ -156,7 +156,7 @@ function showLeaderboard(){
         leaderboardElem.innerHTML += '<h1> Leader Board </<h1>'
 
         userLeaderBoardArray.data.forEach((userDetails) => {
-            leaderboardElem.innerHTML += `<li>Name - ${userDetails.name} Total Expense - ${userDetails.total_cost} </li>`
+            leaderboardElem.innerHTML += `<li>Name - ${userDetails.name} Total Expense - ${userDetails.totalExpenses} </li>`
             
         })
     }

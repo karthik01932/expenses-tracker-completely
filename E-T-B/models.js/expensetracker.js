@@ -25,7 +25,12 @@ const  UserSign = sequelize.define('users',{
     password: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    totalExpenses: {
+        type: Sequelize.INTEGER,
+        defaultvalue: 0
     }
+
 });
 
 module.exports = UserSign;
